@@ -1,0 +1,35 @@
+﻿sample_id,plant,date_collected,plant_type,sample_type,dD
+S2sp8,3,12/6/2020,not_resprout,core,
+S2sp55,3,2/7/2021,not_resprout,core,-54.3
+S2sp10,4,12/6/2020,not_resprout,core,-65.5
+S2sp58,4,2/7/2021,not_resprout,core,-52.1
+S2sp29,7,12/6/2020,resprout,core,-44.1
+S2sp61,7,2/7/2021,resprout,core,-52.7
+S2sp32,9,12/6/2020,not_resprout,core,-51.9
+S2sp65,9,2/7/2021,not_resprout,core,-50.3
+S2sp23,12,12/6/2020,resprout,core,-50
+S2sp42,12,2/7/2021,resprout,core,-40.8
+S2sp15,16,12/6/2020,resprout,core,
+S2sp37,16,2/7/2021,resprout,core,
+S2sp9,3,12/6/2020,not_resprout,twig,-34.8
+S2sp43,3,2/7/2021,not_resprout,twig,-46.1
+S2sp11,4,12/6/2020,not_resprout,twig,-7.1
+S2sp44,4,2/7/2021,not_resprout,twig,-34.5
+S2sp22,7,12/6/2020,resprout,twig,-46.8
+S2sp51,7,2/7/2021,resprout,twig,-50.2
+S2sp31,9,12/6/2020,not_resprout,twig,-29.3
+S2sp52,9,2/7/2021,not_resprout,twig,-46.7
+S2sp17,12,12/6/2020,resprout,twig,-38.8
+S2sp50,12,2/7/2021,resprout,twig,-51
+S2sp14,16,12/6/2020,resprout,twig,-43
+S2sp35,16,2/7/2021,resprout,twig,-53.4
+S2sp1,,12/6/2020,,soil,-34.3
+S2sp4,,12/6/2020,,soil,-42.9
+S2sp6,,12/6/2020,,soil,-47
+S2sp66,,2/7/2021,,soil,-51.4
+S2sp67,,2/7/2021,,soil,-35.9
+S2sp68,,2/7/2021,,soil,-39.6
+S2sp69,,2/7/2021,,soil,-41.3
+wellwater1,,12/6/2020,,well water,-43.3
+wellwater2,,12/6/2020,,well water,-43.7
+precip1,,2/7/2021,,precip,-29.5

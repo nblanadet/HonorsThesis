@@ -1,0 +1,188 @@
+---
+title: "Honor's Thesis"
+author: "Niklas Blanadet"
+date: "1/24/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# install.packages("tidyverse", 
+#                  "ggpubr", 
+#                  "FSA", 
+#                  "rcompanion", 
+#                  "multcomp", 
+#                  "lsmeans", 
+#                  "ggthemes")
+
+library("tidyverse")
+library("ggpubr")
+library("FSA")
+library("rcompanion")
+library("multcomp")
+library("lsmeans")
+library("ggthemes")
+```
+
+```{r}
+# Read in water data
+water_data <- tibble(read.csv("C:/Users/nblan/Desktop/Honors_Project/R/project_data.csv"))
+water_data$sample_type[data$sample_type == "well water"] <- "well_water"
+
+# Read in C and N data
+c_n_data <- tibble(read.csv("C:/Users/nblan/Desktop/Honors_Project/R/project_c_n_data.csv"))
+```
+
+```{r}
+water_data <- data %>%
+  drop_na(dD, dO)
+```
+
+```{r}
+# Cores vs twig (dD)
+water_data %>%
+  filter(sample_type == c("core", "twig")) %>%
+  ggplot(aes(x = sample_type, y = dD, col = sample_type)) +
+  geom_boxplot() +
+  stat_compare_means(method = "t.test") +
+  labs(title = "d2H of cores and twigs", x = "Sample Type", y = "d2H") +
+  theme_pubclean() +
+  scale_color_wsj(name = "Sample Type", labels = c("Core", "Twig")) +
+  ggsave("core_twig_dD.png", 
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+
+# Cores vs twig (dO)
+water_data %>%
+  filter(sample_type == c("core", "twig")) %>%
+  ggplot(aes(x = sample_type, y = dO, col = sample_type)) +
+  geom_boxplot() +
+  stat_compare_means(method = "t.test") +
+  labs(title = "d18O of cores and twigs", x = "Sample Type", y = "d18O") +
+  theme_pubclean() +
+  scale_color_wsj(name = "Sample Type", labels = c("Core", "Twig")) +
+  ggsave("core_twig_dO.png", 
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+```
+
+```{r}
+# resprout vs not resprout (cores)
+water_data %>%
+  filter(sample_type == "core") %>%
+  ggplot(aes(x = plant_type, y = dD, col = plant_type)) +
+  geom_boxplot() +
+  stat_compare_means(method = "t.test") +
+  labs(title = "d2H of cores from resprouts and non-resprouts ", x = "Plant Type", y = "d2H") +
+  theme_pubclean() +
+  scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
+  ggsave("resprout_notresprout_core_dD.png", 
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+
+water_data %>%
+  filter(sample_type == "core") %>%
+  ggplot(aes(x = plant_type, y = dO, col = plant_type)) +
+  geom_boxplot() +
+  stat_compare_means(method = "t.test") +
+  labs(title = "d18O of cores from resprouts and non-resprouts", x = "Plant Type", y = "d18O") +
+  theme_pubclean() +
+  scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
+  ggsave("resprout_notresprout_core_dO.png", 
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+```
+
+```{r}
+# resprout vs not resprout (twig)
+data %>%
+  filter(sample_type == "twig") %>%
+  ggplot(aes(x = plant_type, y = dD, col = plant_type)) +
+  geom_boxplot() +
+  stat_compare_means(method = "t.test") +
+  labs(title = "d2H of twigs from resprouts and non-resprouts", x = "Plant Type", y = "d2H") +
+  theme_pubclean() +
+  scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
+  ggsave("resprout_notresprout_twig_dD.png", 
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+
+data %>%
+  filter(sample_type == "twig") %>%
+  ggplot(aes(x = plant_type, y = dO, col = plant_type)) +
+  geom_boxplot() +
+  stat_compare_means(method = "t.test") +
+  labs(title = "d18O of twigs from resprouts and non-resprouts", x = "Plant Type", y = "d18O") +
+  theme_pubclean() +
+  scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
+  ggsave("resprout_notresprout_twig_dO.png", 
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+```
+
+
+```{r}
+# Graph of dD and O
+water_data %>%
+  ggplot(aes(x = dO, y = dD, col = sample_type)) +
+    geom_point(aes(shape = sample_type), show.legend = FALSE) +
+    stat_ellipse() +
+    geom_abline(aes(slope = 7.82, intercept = 9.42, lty = "Local Meteoric Water Line")) +
+    labs(title = "d2H and d180 of samples", x = "d18O", y = "d2H") +
+    theme_pubr(legend = "right") +
+    scale_color_discrete(name = "Sample Type") +
+    scale_linetype(name = "Lines")
+    ggsave("d2H_and_d18O_partial_graph",
+           path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+```
+```{r}
+# Make new water object data
+
+new_water_data <- water_data %>%
+  mutate(full_sample_type = paste(sample_type, plant_type, sep = "_"))
+
+# Graph of dD and O
+
+new_water_data %>%
+  ggplot(aes(x = dO, y = dD, col = full_sample_type)) +
+    geom_point(aes(shape = full_sample_type), show.legend = FALSE) +
+    stat_ellipse() +
+    geom_abline(aes(slope = 7.82, intercept = 9.42, lty = "Local Meteoric Water LIne")) +
+    labs(title = "d2H and d180 of samples", x = "d18O", y = "d2H") +
+    theme_pubr(legend = "right") +
+    scale_color_discrete(name = "Sample Type") +
+    scale_linetype(name = "Local Meteoric Water Line") +
+    ggsave("d2H_and_d18O_full_graph.png", 
+           path = "C:/Users/nblan/Desktop/Honors_project/R/Graphs")
+
+```
+
+
+```{r}
+# C & N stuff
+
+# C
+c_n_data %>%
+  ggplot(aes(x = plant_type, y = d13C, col = plant_type)) +
+  geom_boxplot() +
+  stat_compare_means(method = "t.test") +
+  labs(title = "d13C of leaves from resprouts and non-resprouts", x = "Plant Type", y = "d13C") +
+  theme_pubclean() +
+  scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
+  ggsave("d13c_boxplot.png", 
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+
+# N
+c_n_data %>%
+  ggplot(aes(x = plant_type, y = d15N, col = plant_type)) +
+  geom_boxplot() +
+  stat_compare_means(method = "t.test") +
+  labs(title = "d15N of leaves from resprouts and non-resprouts", x = "Plant Type", y = "d15N") +
+  theme_pubclean() +
+  scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
+  ggsave("d15n_boxplot.png", 
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+```
+
+
+
+
+
