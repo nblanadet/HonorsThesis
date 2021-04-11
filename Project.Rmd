@@ -130,7 +130,7 @@ water_data %>%
     theme_pubr(legend = "right") +
     scale_color_discrete(name = "Sample Type") +
     scale_linetype(name = "Lines")
-    ggsave("d2H_and_d18O_partial_graph",
+    ggsave("d2H_and_d18O_partial_graph.png",
            path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
 ```
 ```{r}
