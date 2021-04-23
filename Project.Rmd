@@ -11,13 +11,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-# install.packages("tidyverse", 
-#                  "ggpubr", 
-#                  "FSA", 
-#                  "rcompanion", 
-#                  "multcomp", 
-#                  "lsmeans", 
-#                  "ggthemes")
+# install.packages("tidyverse",
+#                  "ggpubr",
+#                  "FSA",
+#                  "rcompanion",
+#                  "multcomp",
+#                  "lsmeans",
+#                  "ggthemes",
+#                  "httr",
+#                  "tm",
+#                  "tmap",
+#                  "sf",
+#                  "sp",
+#                  "purrr",
+#                  "raster", 
+#                  "rgbif")
 
 library("tidyverse")
 library("ggpubr")
@@ -26,6 +34,14 @@ library("rcompanion")
 library("multcomp")
 library("lsmeans")
 library("ggthemes")
+library("tmap")
+library("tm")
+library("httr")
+library("sf")
+library("sp")
+library("purrr")
+library("raster")
+library("rgbif")
 ```
 
 ```{r}
@@ -35,6 +51,9 @@ water_data$sample_type[data$sample_type == "well water"] <- "well_water"
 
 # Read in C and N data
 c_n_data <- tibble(read.csv("C:/Users/nblan/Desktop/Honors_Project/R/project_c_n_data.csv"))
+
+# Read in Manzanita locations
+manzanita <- read.csv("C:/Users/nblan/Desktop/Honors_Project/R/manzanita_data.csv")
 ```
 
 ```{r}
@@ -45,7 +64,7 @@ water_data <- data %>%
 ```{r}
 # Cores vs twig (dD)
 water_data %>%
-  filter(sample_type == c("core", "twig")) %>%
+  filter(sample_type == c("Core", "Twig")) %>%
   ggplot(aes(x = sample_type, y = dD, col = sample_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
@@ -53,11 +72,13 @@ water_data %>%
   theme_pubclean() +
   scale_color_wsj(name = "Sample Type", labels = c("Core", "Twig")) +
   ggsave("core_twig_dD.png", 
-         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
+         height = 6, 
+         width = 6)
 
 # Cores vs twig (dO)
 water_data %>%
-  filter(sample_type == c("core", "twig")) %>%
+  filter(sample_type == c("Core", "Twig")) %>%
   ggplot(aes(x = sample_type, y = dO, col = sample_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
@@ -65,13 +86,15 @@ water_data %>%
   theme_pubclean() +
   scale_color_wsj(name = "Sample Type", labels = c("Core", "Twig")) +
   ggsave("core_twig_dO.png", 
-         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
+         height = 6, 
+         width = 6)
 ```
 
 ```{r}
 # resprout vs not resprout (cores)
 water_data %>%
-  filter(sample_type == "core") %>%
+  filter(sample_type == "Core") %>%
   ggplot(aes(x = plant_type, y = dD, col = plant_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
@@ -79,10 +102,12 @@ water_data %>%
   theme_pubclean() +
   scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
   ggsave("resprout_notresprout_core_dD.png", 
-         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
+         height = 6, 
+         width = 6)
 
 water_data %>%
-  filter(sample_type == "core") %>%
+  filter(sample_type == "Core") %>%
   ggplot(aes(x = plant_type, y = dO, col = plant_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
@@ -90,13 +115,15 @@ water_data %>%
   theme_pubclean() +
   scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
   ggsave("resprout_notresprout_core_dO.png", 
-         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
+         height = 6,
+         width = 6)
 ```
 
 ```{r}
 # resprout vs not resprout (twig)
 data %>%
-  filter(sample_type == "twig") %>%
+  filter(sample_type == "Twig") %>%
   ggplot(aes(x = plant_type, y = dD, col = plant_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
@@ -104,10 +131,12 @@ data %>%
   theme_pubclean() +
   scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
   ggsave("resprout_notresprout_twig_dD.png", 
-         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
+         height = 6, 
+         width = 6)
 
 data %>%
-  filter(sample_type == "twig") %>%
+  filter(sample_type == "Twig") %>%
   ggplot(aes(x = plant_type, y = dO, col = plant_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
@@ -115,7 +144,9 @@ data %>%
   theme_pubclean() +
   scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
   ggsave("resprout_notresprout_twig_dO.png", 
-         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
+         height = 6, 
+         width = 6)
 ```
 
 
@@ -139,20 +170,69 @@ water_data %>%
 new_water_data <- water_data %>%
   mutate(full_sample_type = paste(sample_type, plant_type, sep = "_"))
 
+plant_data <- new_water_data %>%
+  filter(sample_type %in% c("Twig", "Core"))
+
+source_water_data_mean <- new_water_data %>%
+  filter(sample_type %in% c("precip", "well_water", "Soil")) %>%
+  group_by(full_sample_type) %>%
+  summarise(mean_d2h = mean(dD), mean_d18o = mean(dO))
+
+new_water_data$sample_type[10]
+
 # Graph of dD and O
 
 new_water_data %>%
   ggplot(aes(x = dO, y = dD, col = full_sample_type)) +
-    geom_point(aes(shape = full_sample_type), show.legend = FALSE) +
+    geom_point(alpha = 1, show.legend = FALSE) +
     stat_ellipse() +
-    geom_abline(aes(slope = 7.82, intercept = 9.42, lty = "Local Meteoric Water LIne")) +
+    geom_abline(aes(slope = 7.82, intercept = 9.42, lty = "Local Meteoric Water Line")) +
     labs(title = "d2H and d180 of samples", x = "d18O", y = "d2H") +
     theme_pubr(legend = "right") +
     scale_color_discrete(name = "Sample Type") +
     scale_linetype(name = "Local Meteoric Water Line") +
     ggsave("d2H_and_d18O_full_graph.png", 
-           path = "C:/Users/nblan/Desktop/Honors_project/R/Graphs")
+           path = "C:/Users/nblan/Desktop/Honors_project/R/Graphs", 
+           height = 6, 
+           width = 10)
 
+plant_data %>%
+  ggplot(aes(x = dO, y = dD, col = full_sample_type)) +
+    geom_point(aes(shape = full_sample_type), alpha = 0, show.legend = FALSE) +
+    stat_ellipse() +
+    geom_polygon(data = source_water_data_mean, aes(x = mean_d18o, 
+                                                    y = mean_d2h,
+                                                    color = "green",
+                                                    alpha = 0.5,
+                                                    show.legend = FALSE)) +
+    geom_abline(aes(slope = 7.82, intercept = 9.41, lty = "Local Meteoric Water Line")) +
+    labs(title = "d2H and d18O of samples", x = "d18O", y = "d2H") +
+    theme_pubr(legend = "right") +
+    scale_color_discrete(name = "Sample Type", breaks = c("core_not_resprout", 
+                                                          "core_resprout", 
+                                                          "twig_not_resprout", 
+                                                          "twig_resprout")) +
+    scale_linetype(name = "Local Meteoric Water Line")
+
+```
+
+
+```{r}
+mean_water_data <- new_water_data %>%
+  group_by(full_sample_type) %>%
+  summarise(mean_d2h = mean(dD), mean_d18o = mean(dO))
+
+mean_water_data %>%
+  ggplot(aes(x = mean_d18o, y = mean_d2h, col = full_sample_type)) +
+  geom_point(aes(show.legend = FALSE)) +
+  geom_abline(aes(slope = 7.82, intercept = 9.42, lty = "Local Meteoric Water LIne")) +
+  labs(title = "d2H and d180 of samples", x = "d18O", y = "d2H") +
+  theme_pubr(legend = "right") +
+  scale_color_discrete(name = "Sample Type") +
+  scale_linetype(name = "Local Meteoric Water Line") +
+  ggsave("d2H_and_d18O_mean_full_graph.png",
+          path = "C:/Users/nblan/Desktop/Honors_project/R/Graphs")
+  
 ```
 
 
@@ -168,7 +248,9 @@ c_n_data %>%
   theme_pubclean() +
   scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
   ggsave("d13c_boxplot.png", 
-         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
+         height = 6, 
+         width = 6)
 
 # N
 c_n_data %>%
@@ -179,10 +261,92 @@ c_n_data %>%
   theme_pubclean() +
   scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
   ggsave("d15n_boxplot.png", 
-         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs")
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
+         height = 6, 
+         width = 6)
 ```
 
 
 
+# RGBIF STUFF AND MAPPING
+
+```{r}
+# GENERATE GBIF KEY AND READ IN OCCURANCES (UNCOMMENT LINE UNDER KEY TO OBTAIN DATA FOR FIRST TIME)
+key <- name_backbone(name="Arctostaphylos glandulosa")$speciesKey
+res <- occ_data(taxonKey = key, hasCoordinate = TRUE, stateProvince = "California", limit = 4000)
+
+res_rds <- saveRDS(res, "res.rds")
+```
+
+```{r}
+arcto_data <- readRDS("res.rds")
+cali_border <- st_read("C:/Users/nblan/Desktop/Honors_Project/R/GISLayers/CA_State_TIGER2016.shp")
+```
+
+```{r}
+arcto_tibble <- tibble(arcto_data$data) %>%
+  filter(geodeticDatum == "WGS84", 
+         taxonomicStatus == "ACCEPTED", 
+         is.na(year) != TRUE, 
+         year %in% c(1990:2020))
+
+arcto_points <- SpatialPoints(arcto_tibble[, c("decimalLongitude", "decimalLatitude")])
+
+manzanita_filtered <- manzanita %>%
+  filter(site == "S2")
+my_manz_pts <- SpatialPoints(manzanita_filtered[, c("longitude", "latitude")])
+```
+
+```{r}
+# mapping
+tm_style("classic")
+map1 <- tm_shape(cali_border) +
+  tm_borders() +
+  tm_fill(col = "lightgreen", alpha = 0.4) +
+tm_shape(arcto_points) +
+  tm_dots(size = 0.3, shape = 1, alpha = 0.3, clustering = TRUE) +
+tm_shape(my_manz_pts) +
+  tm_dots(size = 4, shape = 7, col = "red") +
+tm_layout(bg.color = "skyblue")
+
+tmap_save(map1, "C:/Users/nblan/Desktop/Honors_Project/R/Graphs/cali_arcto_map1.png", 
+          height = 5, 
+          width = 5)
+```
+
+## MAPPING STUFF
 
 
+```{r}
+# Load in the shape files
+border <- st_read("C:/Users/nblan/Desktop/Honors_Project/R/GISLayers/PWD_BASE_Jursd_Boundaries_PepperwoodPreserve.shp")
+
+tributaries <- st_read("C:/Users/nblan/Desktop/Honors_Project/R/GISLayers/PWD_BASE_Env_Hydro_RR_tributaries.shp")
+
+road <- st_read("C:/Users/nblan/Desktop/Honors_Project/R/GISLayers/PWD_BASE_Infstr_Roads.shp")
+
+fire <- st_read("C:/Users/nblan/Desktop/Honors_Project/R/GISLayers/PWD_KincadeFire_fullPerimeter.shp")
+
+manzanita_points <- st_read(manzanita)
+```
+
+
+```{r}
+# Generate a map of Pepperwood
+
+map2 <- tm_shape(border) +
+  tm_borders() +
+  tm_fill(col = "green", alpha = 0.7) +
+tm_shape(my_manz_pts) +
+  tm_dots(size = 4, shape = 7, col = "red") +
+tm_compass(type = "rose", 
+           position = c("right", "top"), 
+           color.light = "yellow", 
+           color.dark = "darkblue") +
+tm_layout(bg.color = "skyblue")
+
+tmap_save(map2, "C:/Users/nblan/Desktop/Honors_Project/R/Graphs/cali_arcto_map2.png", 
+          height = 6, 
+          width = 6)
+  
+```
