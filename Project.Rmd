@@ -57,7 +57,7 @@ manzanita <- read.csv("C:/Users/nblan/Desktop/Honors_Project/R/manzanita_data.cs
 ```
 
 ```{r}
-water_data <- data %>%
+water_data <- water_data %>%
   drop_na(dD, dO)
 ```
 
@@ -122,7 +122,7 @@ water_data %>%
 
 ```{r}
 # resprout vs not resprout (twig)
-data %>%
+water_data %>%
   filter(sample_type == "Twig") %>%
   ggplot(aes(x = plant_type, y = dD, col = plant_type)) +
   geom_boxplot() +
@@ -135,7 +135,7 @@ data %>%
          height = 6, 
          width = 6)
 
-data %>%
+water_data %>%
   filter(sample_type == "Twig") %>%
   ggplot(aes(x = plant_type, y = dO, col = plant_type)) +
   geom_boxplot() +
@@ -191,7 +191,7 @@ new_water_data %>%
     theme_pubr(legend = "right") +
     scale_color_discrete(name = "Sample Type") +
     scale_linetype(name = "Local Meteoric Water Line") +
-    ggsave("d2H_and_d18O_full_graph.png", 
+    ggsave("d2H_and_d18O_full_graph2.png", 
            path = "C:/Users/nblan/Desktop/Honors_project/R/Graphs", 
            height = 6, 
            width = 10)
