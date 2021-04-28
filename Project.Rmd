@@ -24,8 +24,9 @@ knitr::opts_chunk$set(echo = TRUE)
 #                  "sf",
 #                  "sp",
 #                  "purrr",
-#                  "raster", 
-#                  "rgbif")
+#                  "raster",
+#                  "rgbif", 
+#                  "patchwork")
 
 library("tidyverse")
 library("ggpubr")
@@ -42,6 +43,7 @@ library("sp")
 library("purrr")
 library("raster")
 library("rgbif")
+library("patchwork")
 ```
 
 ```{r}
@@ -350,3 +352,57 @@ tmap_save(map2, "C:/Users/nblan/Desktop/Honors_Project/R/Graphs/cali_arcto_map2.
           width = 6)
   
 ```
+
+# Using temporal scale
+
+```{r}
+# Adjust the dates
+temporal_data <- water_data
+temporal_data$date[temporal_data$date == "11/24/2020"] <- "12/6/2020"
+
+coeff <- 10
+
+temporal_data %>%
+  filter(sample_type == c("Core", "Twig")) %>%
+  ggplot(aes(x = date, y = dD, col = sample_type)) +
+  geom_boxplot() +
+  stat_compare_means(method = "t.test") +
+  labs(title = "d2H of Cores and Twigs", x = "Sampling Date", y = "d2H") +
+  theme_pubclean() +
+  scale_color_wsj(name = "Sample Type") +
+  ggsave("temporal_d2H.png", 
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
+         height = 6, 
+         width = 10)
+
+temporal_data %>%
+  filter(sample_type == c("Core", "Twig")) %>%
+  ggplot(aes(x = date, y = dO, col = sample_type)) +
+  geom_boxplot() +
+  stat_compare_means(method = "t.test") +
+  labs(title = "d18O of Cores and Twigs", x = "Sampling Date", y = "d18O") +
+  theme_pubclean() +
+  scale_color_wsj(name = "Sample Type") +
+  ggsave("temporal_d2H.png", 
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
+         height = 6, 
+         width = 10)
+  
+  
+
+
+
+water_data %>%
+  filter(sample_type == "Twig") %>%
+  ggplot(aes(x = plant_type, y = dO, col = plant_type)) +
+  geom_boxplot() +
+  stat_compare_means(method = "t.test") +
+  labs(title = "d18O of twigs from resprouts and non-resprouts", x = "Plant Type", y = "d18O") +
+  theme_pubclean() +
+  scale_color_wsj(name = "Plant Type", labels = c("Not Resprout", "Resprout")) +
+  ggsave("resprout_notresprout_twig_dO.png", 
+         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
+         height = 6, 
+         width = 6)
+```
+
