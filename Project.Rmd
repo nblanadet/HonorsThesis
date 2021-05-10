@@ -74,7 +74,7 @@ temporal_data %>%
   ggplot(aes(x = date, y = dD, col = sample_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
-  labs(title = "δD of Cores and Twigs", x = "Sampling Date", y = "δD (‰)") +
+  labs(x = "Sampling Date", y = "δD (‰)") +
   theme_pubclean() +
   scale_color_wsj(name = "Sample Type") +
   ggsave("temporal_core_twig_d2H.png", 
@@ -87,7 +87,7 @@ temporal_data %>%
   ggplot(aes(x = date, y = dO, col = sample_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
-  labs(title = "δ18O of Cores and Twigs", x = "Sampling Date", y = "δ18O (‰)") +
+  labs(x = "Sampling Date", y = "δ18O (‰)") +
   theme_pubclean() +
   scale_color_wsj(name = "Sample Type") +
   ggsave("temporal_core_twig_d18O.png", 
@@ -100,7 +100,7 @@ temporal_data %>%
   ggplot(aes(x = date, y = dD, col = plant_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
-  labs(title = "δD of cores from resprouts and non-resprouts", x = "Date", y = "δD (‰)") +
+  labs(x = "Date", y = "δD (‰)") +
   theme_pubclean() +
   scale_color_wsj(name = "Plant Type") +
   ggsave("temporal_resprout_notresprout_core_d2H.png", 
@@ -113,7 +113,7 @@ temporal_data %>%
   ggplot(aes(x = date, y = dO, col = plant_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
-  labs(title = "δ18O of cores from resprouts and non-resprouts", x = "Date", y = "δ18O (‰)") +
+  labs(x = "Date", y = "δ18O (‰)") +
   theme_pubclean() +
   scale_color_wsj(name = "Plant Type") +
   ggsave("temporal_resprout_notresprout_core_d18O.png", 
@@ -126,7 +126,7 @@ temporal_data %>%
   ggplot(aes(x = date, y = dD, col = plant_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
-  labs(title = "δD of twigs from resprouts and non-resprouts", x = "Date", y = "δD (‰)") +
+  labs(x = "Date", y = "δD (‰)") +
   theme_pubclean() +
   scale_color_wsj(name = "Plant Type") +
   ggsave("temporal_resprout_notresprout_twig_d2H.png", 
@@ -139,7 +139,7 @@ temporal_data %>%
   ggplot(aes(x = date, y = dO, col = plant_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
-  labs(title = "δ18O of twigs from resprouts and non-resprouts", x = "Date", y = "δ18O (‰)") +
+  labs(x = "Date", y = "δ18O (‰)") +
   theme_pubclean() +
   scale_color_wsj(name = "Plant Type") +
   ggsave("temporal_resprout_notresprout_twig_d18O.png", 
@@ -156,7 +156,7 @@ temporal_data %>%
   ggplot(aes(x = date, y = dD, col = sample_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
-  labs(title = "δD of Cores and Twigs from Non-Resprouts", x = "Sampling Date", y = "δD (‰)") +
+  labs(x = "Sampling Date", y = "δD (‰)") +
   theme_pubclean() +
   scale_color_wsj(name = "Sample Type") +
   ggsave("temporal_core_twig_not_resprout_d2H.png", 
@@ -169,7 +169,7 @@ temporal_data %>%
   ggplot(aes(x = date, y = dD, col = sample_type)) +
   geom_boxplot() +
   stat_compare_means(method = "t.test") +
-  labs(title = "δD of Cores and Twigs from Resprouts", x = "Sampling Date", y = "δD (‰)") +
+  labs(x = "Sampling Date", y = "δD (‰)") +
   theme_pubclean() +
   scale_color_wsj(name = "Sample Type") +
   ggsave("temporal_core_twig_resprout_d2H.png", 
@@ -178,33 +178,8 @@ temporal_data %>%
          width = 6)
 
 
-# CORES VS TWIGS (dO)
 
-temporal_data %>%
-  filter(sample_type == c("Core", "Twig"), plant_type == "not_resprout") %>%
-  ggplot(aes(x = date, y = dO, col = sample_type)) +
-  geom_boxplot() +
-  stat_compare_means(method = "t.test") +
-  labs(title = "δ18O of Cores and Twigs from Non-Resprouts", x = "Sampling Date", y = "δ18O (‰)") +
-  theme_pubclean() +
-  scale_color_wsj(name = "Sample Type") +
-  ggsave("temporal_core_twig_not_resprout_d18O.png", 
-         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
-         height = 6, 
-         width = 6)
 
-temporal_data %>%
-  filter(sample_type == c("Core", "Twig"), plant_type == "resprout") %>%
-  ggplot(aes(x = date, y = dO, col = sample_type)) +
-  geom_boxplot() +
-  stat_compare_means(method = "t.test") +
-  labs(title = "δ18O of Cores and Twigs from Resprouts", x = "Sampling Date", y = "δ18O (‰)") +
-  theme_pubclean() +
-  scale_color_wsj(name = "Sample Type") +
-  ggsave("temporal_core_twig_resprout_d18O.png", 
-         path = "C:/Users/nblan/Desktop/Honors_Project/R/Graphs", 
-         height = 6, 
-         width = 6)
 ```
 
 
@@ -222,7 +197,7 @@ new_water_data %>%
     geom_point(alpha = 1, show.legend = FALSE) +
     stat_ellipse() +
     geom_abline(aes(slope = 7.82, intercept = 9.42, lty = "Local Meteoric Water Line")) +
-    labs(title = "δD and δ18O of twig samples", x = "δ18O (‰)", y = "δD (‰)") +
+    labs(x = "δ18O (‰)", y = "δD (‰)") +
     theme_pubr(legend = "right") +
     scale_color_discrete(name = "Sample Type") +
     scale_linetype(name = "Local Meteoric Water Line") +
@@ -238,7 +213,7 @@ new_water_data %>%
     geom_point(alpha = 1, show.legend = FALSE) +
     stat_ellipse() +
     geom_abline(aes(slope = 7.82, intercept = 9.42, lty = "Local Meteoric Water Line")) +
-    labs(title = "δD and δ18O of core samples", x = "δ18O (‰)", y = "δD (‰)") +
+    labs(x = "δ18O (‰)", y = "δD (‰)") +
     theme_pubr(legend = "right") +
     scale_color_discrete(name = "Sample Type") +
     scale_linetype(name = "Local Meteoric Water Line") +
@@ -246,6 +221,40 @@ new_water_data %>%
            path = "C:/Users/nblan/Desktop/Honors_project/R/Graphs", 
            height = 6, 
            width = 10)
+
+# a <- new_water_data %>%
+#   filter(sample_type %in% c("Twig", "Core", "well_water", "precip", "Soil"), plant_type == c("resprout", "")) %>%
+#   ggplot(aes(x = dO, y = dD, col = full_sample_type)) +
+#     geom_point(alpha = 1, show.legend = FALSE) +
+#     stat_ellipse() +
+#     geom_abline(aes(slope = 7.82, intercept = 9.42, lty = "Local Meteoric Water Line")) +
+#     labs(title = "δD and δ18O of core samples", x = "δ18O (‰)", y = "δD (‰)") +
+#     theme_pubr(legend = "right") +
+#     scale_color_discrete(name = "Sample Type") +
+#     scale_linetype(name = "Local Meteoric Water Line") +
+#     ggsave("δD_and_d18O_full_core_graph.png", 
+#            path = "C:/Users/nblan/Desktop/Honors_project/R/Graphs", 
+#            height = 6, 
+#            width = 10)
+# 
+# b<- new_water_data %>%
+#   filter(sample_type %in% c("Twig", "Core", "well_water", "precip", "Soil"), plant_type == c("not_resprout", "")) %>%
+#   ggplot(aes(x = dO, y = dD, col = full_sample_type)) +
+#     geom_point(alpha = 1, show.legend = FALSE) +
+#     stat_ellipse() +
+#     geom_abline(aes(slope = 7.82, intercept = 9.42, lty = "Local Meteoric Water Line")) +
+#     labs(title = "δD and δ18O of core samples", x = "δ18O (‰)", y = "δD (‰)") +
+#     theme_pubr(legend = "right") +
+#     scale_color_discrete(name = "Sample Type") +
+#     scale_linetype(name = "Local Meteoric Water Line") +
+#     ggsave("δD_and_d18O_full_core_graph.png", 
+#            path = "C:/Users/nblan/Desktop/Honors_project/R/Graphs", 
+#            height = 6, 
+#            width = 10)
+# 
+# library(cowplot)
+# plot_grid(a, b, 
+#           labels = "AUTO")
 ```
 
 
@@ -366,12 +375,51 @@ tmap_save(map2, "C:/Users/nblan/Desktop/Honors_Project/R/Graphs/cali_arcto_map2.
 
 ## ANOVAS
 
+```{r}
+# Is there a difference in gross horsepower due to # of forward gears?
+
+hist(mtcars$hp) # check to make sure data are noramally distributed
+shapiro.test(mtcars$hp) # if the P value is > 0.05 your data is normally distrbuted
+
+aov_hp = aov(mtcars$hp ~ mtcars$gear) # save your anova results table (output) 
+
+summary(aov_hp) # sumarize your results 
+
+# post-hoc test (test on the results of another test). The one-way anova only gives us a p value for all groups, saying there is a significant difference or not somewhere in the data tested. It does not tell you which groups are significantly different
+?TukeyHSD
+TukeyHSD(aov_hp)
+```
 
 
 
+```{r}
+# ANOVA for cores + twigs dD
+
+core_twig_temporal <- temporal_data %>%
+  filter(sample_type == c("Core", "Twig"))
+
+hist(core_twig_temporal$dD)
+shapiro.test(core_twig_temporal$dD)
+
+coretwig_anova_dD = aov(dD ~ sample_type + date, data = core_twig_temporal)
+summary(coretwig_anova_dD)
+
+TukeyHSD(coretwig_anova_dD)
+```
+# http://rcompanion.org/rcompanion/d_07.html
+
+ # NESTED ANOVA
+```{r}
+if(!require(nlme)){install.packages("nlme")}
+if(!require(multcomp)){install.packages("multcomp")}
+if(!require(multcompView)){install.packages("multcompView")}
+if(!require(lsmeans)){install.packages("lsmeans")}
+if(!require(lme4)){install.packages("lme4")}
+if(!require(lmerTest)){install.packages("lmerTest")}
+if(!require(TukeyC)){install.packages("TukeyC")}
 
 
-
+```
 
 
 
